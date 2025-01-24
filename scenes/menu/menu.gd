@@ -1,10 +1,10 @@
 extends Control
 
-@onready var btn_play = $MarginContainer/Control/VBoxContainer/PlayButton
-@onready var btn_exit = $MarginContainer/Control/VBoxContainer/ExitButton
+@onready var btn_play :Control= $MarginContainer/Control/VBoxContainer/PlayButton
+@onready var btn_exit :Control= $MarginContainer/Control/VBoxContainer/ExitButton
 
 
-func _ready():
+func _ready() -> void:
 	# needed for gamepads to work
 	btn_play.grab_focus()
 	if OS.has_feature('web'):
@@ -17,7 +17,7 @@ func _on_PlayButton_pressed() -> void:
 
 func _on_ExitButton_pressed() -> void:
 	# gently shutdown the game
-	var transitions = get_node_or_null("/root/Transitions")
+	var transitions :Transitions= get_node_or_null("/root/Transitions")
 	if transitions:
 		transitions.fade_in({
 			'show_progress_bar': false

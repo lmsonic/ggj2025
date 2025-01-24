@@ -1,7 +1,16 @@
 class_name Player extends CharacterBody2D
 
-@export_group("Movement")
+@export_group("Actions")
+@export var move_left_action:= "move_left"
+@export var move_right_action:= "move_right"
+@export var jump_action:= "jump"
+@export var gun_left_action:= "gun_left"
+@export var gun_right_action:= "gun_right"
+@export var gun_up_action:= "gun_up"
+@export var gun_down_action:= "gun_down"
+@export var shoot_action:= "shoot"
 
+@export_group("Movement")
 @export var movement_speed := 500.0
 @export var ground_acceleration := 5.0
 @export var air_acceleration := 2.5
@@ -27,6 +36,8 @@ class_name Player extends CharacterBody2D
 
 @onready var _aerial_jumps := number_of_aerial_jumps
 
+
+
 var facing_right := true
 var dash_direction := Vector2.ZERO
 var is_dashing := false
@@ -42,18 +53,34 @@ func is_at_jump_apex() -> bool:
 func calculate_fall_multiplier() -> float:
 	if is_at_jump_apex():
 		return apex_multiplier
-	if not Input.is_action_pressed("jump"):
+	if not Input.is_action_pressed(jump_action):
 		return jump_release_multiplier
 	if velocity.y < fall_multiplier_threshold:
 		return fall_multiplier
 	return 1.0
 
-func die():
+func die() -> void:
 	Game.restart_scene()
+
+@onready var gun_pivot: Node2D = $Pivot
+@onready var gun: Node2D = $Pivot/Gun
+@export var bubble: PackedScene
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(shoot_action):
+		var bub :Bubble= bubble.instantiate()
+		bub.direction = Vector2.RIGHT.rotated(gun_pivot.rotation)
+		bub.global_position=gun.global_position
+		get_tree().current_scene.add_child(bub)
+
+func _process(delta: float) -> void:
+	var input := Input.get_vector(gun_left_action,gun_right_action,gun_up_action,gun_down_action).normalized()
+	if input != Vector2.ZERO:
+		gun_pivot.rotation = atan2(input.y,input.x)
 
 func _physics_process(delta: float) -> void:
 	# Movement
-	var horizontal_input := Input.get_axis("move_left","move_right")
+	var horizontal_input := Input.get_axis(move_left_action,move_right_action)
 
 	var acceleration := ground_acceleration if is_on_floor() else air_acceleration
 
@@ -75,12 +102,12 @@ func _physics_process(delta: float) -> void:
 	velocity.x = clamp(velocity.x, -movement_speed,movement_speed)
 
 	# Jump
-	if (Input.is_action_just_pressed("jump") or time_since_jump_press < jump_buffer) and (is_on_floor() or time_since_grounded < coyote_time):
+	if (Input.is_action_just_pressed(jump_action) or time_since_jump_press < jump_buffer) and (is_on_floor() or time_since_grounded < coyote_time):
 		velocity.y = calculate_jump_force()
 
 	# Aerial Jumps
 	if _aerial_jumps > 0\
-	and Input.is_action_just_pressed("jump") and not is_on_floor():
+	and Input.is_action_just_pressed(jump_action) and not is_on_floor():
 		velocity.y = calculate_jump_force()
 		_aerial_jumps -= 1
 
@@ -90,12 +117,12 @@ func _physics_process(delta: float) -> void:
 		time_since_grounded = 0.0
 
 	time_since_jump_press+=delta
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed(jump_action):
 		time_since_jump_press = 0.0
 
 	# Apex modifiers
 	if is_at_jump_apex():
-		var apex_point := inverse_lerp(apex_threshold,0,abs(velocity.y))
+		var apex_point := inverse_lerp(apex_threshold,0,absf(velocity.y))
 		velocity.x += sign(horizontal_input) * apex_speed_boost * apex_point
 
 	# Gravity
@@ -105,8 +132,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func get_closest_axis(direction:Vector2) -> Vector2:
-	return snapped(direction,Vector2.ONE).normalized()
+	return direction.snapped(Vector2.ONE).normalized()
 
 
-func update_facing():
+func update_facing() -> void:
 	facing_right = velocity.x > 0

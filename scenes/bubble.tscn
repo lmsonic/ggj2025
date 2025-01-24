@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://w071v8bxvrrl"]
+
+[ext_resource type="Script" path="res://scenes/bubble.gd" id="1_uedqm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6jkhh"]
+
+[node name="Bubble" type="Area2D"]
+script = ExtResource("1_uedqm")
+speed = 400
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6jkhh")
