@@ -6,7 +6,7 @@ func _ready() -> void:
 	body_entered.connect(on_body_entered)
 
 
-func on_body_entered(node:Node2D):
+func on_body_entered(node:Node2D) -> void:
 	var player := node as Player
 	if player:
 		player.die()
