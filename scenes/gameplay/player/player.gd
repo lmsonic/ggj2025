@@ -127,8 +127,6 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 			get_tree().current_scene.add_child(bub)
 
 @onready var gun_sprite: Sprite2D = $Pivot/Gun/Sprite2D
-@onready var gun_sprite: Sprite2D = $Pivot/Gun/Sprite2D
-
 func _on_normal_state_state_processing(delta: float) -> void:
 	var input := Input.get_vector(gun_left_action, gun_right_action, gun_up_action, gun_down_action).normalized()
 	if input != Vector2.ZERO:
