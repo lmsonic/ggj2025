@@ -152,6 +152,14 @@ func accelerate(horizontal_input: float, acceleration: float, delta: float, max_
 		velocity.x = lerp(velocity.x, 0.0, acceleration * deceleration_multiplier * delta)
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed)
 
+func handle_bouncy(delta:float)-> void:
+	var collision := move_and_collide(velocity*delta,true)
+	if collision:
+		var bouncy :Bouncy= collision.get_collider() as Bouncy
+		if bouncy:
+			velocity = velocity.bounce(collision.get_normal())
+			no_input_timer.start()
+
 func _on_normal_state_state_physics_processing(delta: float) -> void:
 	if not no_input_timer.is_stopped():
 		move_and_slide()
@@ -190,12 +198,8 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 	# Gravity
 	velocity.y += gravity * delta * calculate_fall_multiplier()
 	velocity.y = min(velocity.y, max_fall_speed)
-	var collision := move_and_collide(velocity*delta,true)
-	if collision:
-		var bouncy :Bouncy= collision.get_collider() as Bouncy
-		if bouncy:
-			velocity = velocity.bounce(collision.get_normal())
-			no_input_timer.start()
+
+	handle_bouncy(delta)
 
 	move_and_slide()
 
@@ -224,6 +228,7 @@ func _on_bubbled_state_state_physics_processing(delta: float) -> void:
 	accelerate(horizontal_input, acceleration, delta, bubbled_horizontal_speed)
 
 	velocity.y = lerpf(velocity.y, -bubbled_up_speed, air_acceleration * delta)
+	handle_bouncy(delta)
 	move_and_slide()
 
 func _on_bubbled_timer_timeout() -> void:
