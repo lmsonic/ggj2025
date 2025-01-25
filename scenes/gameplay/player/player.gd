@@ -150,8 +150,10 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 @export_group("Bubble State")
 @export var bubbled_up_speed := 1000.0
 @export var bubbled_horizontal_speed := 1000.0
+@onready var bubbled_timer: Timer = $BubbledTimer
 
 func _on_bubbled_state_state_entered() -> void:
+	bubbled_timer.start()
 	bubble_shape.show()
 
 func _on_bubbled_state_state_exited() -> void:
@@ -164,3 +166,6 @@ func _on_bubbled_state_state_physics_processing(delta: float) -> void:
 
 	velocity.y = -bubbled_up_speed
 	move_and_slide()
+
+func _on_bubbled_timer_timeout() -> void:
+	state_chart.send_event("popped")
