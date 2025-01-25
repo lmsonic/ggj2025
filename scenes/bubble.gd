@@ -1,6 +1,8 @@
 class_name Bubble extends Area2D
 
-@export var speed := 10
+
+@export var force := 400.0
+@export var speed := 400.0
 var direction:=Vector2.RIGHT
 var player_index:=0
 func _physics_process(delta: float) -> void:

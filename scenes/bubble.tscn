@@ -4,16 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="2_1o5e2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6jkhh"]
+radius = 20.0
 
 [node name="Bubble" type="Area2D"]
 script = ExtResource("1_uedqm")
-speed = 400
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_6jkhh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
 texture = ExtResource("2_1o5e2")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
