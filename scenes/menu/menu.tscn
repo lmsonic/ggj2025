@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2gocuhw2o7py"]
+[gd_scene load_steps=13 format=3 uid="uid://c2gocuhw2o7py"]
 
 [ext_resource type="FontFile" uid="uid://da2t6lyf41wty" path="res://assets/fonts/open-sans/open-sans-bold.ttf" id="4"]
 [ext_resource type="Script" path="res://scenes/menu/game_version.gd" id="4_3hod2"]
@@ -56,6 +56,9 @@ font_color = Color(0.86, 0.100333, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5pd4k"]
 font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_gic5l"]
+font_size = 25
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -218,9 +221,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -124.0
-offset_right = 392.0
-offset_bottom = 183.0
+offset_left = 1.0
+offset_top = -138.0
+offset_right = 393.0
+offset_bottom = 247.0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="MarginContainer/Control/Controls"]
@@ -228,17 +232,35 @@ layout_mode = 2
 theme_type_variation = &"LabelSmall"
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "CONTROLS: 
-(JOYPAD)
-MOVE LEFT AND RIGHT: LEFT STICK
-POINT BUBBLE GUN: RIGHT STICK
+"
+label_settings = SubResource("LabelSettings_gic5l")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/Control/Controls"]
+layout_mode = 2
+theme_type_variation = &"LabelSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "(JOYPAD) Recommended
+MOVE LEFT AND RIGHT: Left Stick
+POINT BUBBLE GUN: Right Stick
 JUMP: A or LB
+SHOOT: RB"
+label_settings = SubResource("LabelSettings_am8rt")
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/Control/Controls"]
+layout_mode = 2
+theme_type_variation = &"LabelSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "
 (KEYBOARD) only for player 2
 MOVE LEFT AND RIGHT: A and D
-POINT BUBBLE GUN: MOUSE
-JUMP: SPACE
-SHOOT: LEFT MOUSE BUTTON
+POINT BUBBLE GUN: Mouse
+JUMP: Left Shift
+SHOOT: Space or Left Mouse Button
 "
 label_settings = SubResource("LabelSettings_am8rt")
+horizontal_alignment = 1
 
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/Stage1Button" to="." method="_on_stage_1_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/Stage2Button" to="." method="_on_stage_2_button_pressed"]
