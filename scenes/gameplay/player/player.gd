@@ -230,8 +230,8 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 
 
 	# Gravity
-	if invulnerability_timer.is_stopped():
-		velocity.y += gravity * delta * calculate_fall_multiplier()
+
+	velocity.y += gravity * delta * calculate_fall_multiplier()
 	velocity.y = min(velocity.y, max_fall_speed)
 
 	handle_bouncy(delta)
