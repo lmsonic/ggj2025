@@ -118,7 +118,11 @@ func update_facing() -> void:
 @onready var shooting_timer: Timer = $ShootingTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+var keyboard:= false
+
 func _on_normal_state_state_input(event: InputEvent) -> void:
+	keyboard = event is InputEventMouseMotion
+	keyboard = event is not InputEventJoypadMotion
 	if event.is_action_pressed(shoot_action):
 		if shooting_timer.is_stopped():
 			shooting_timer.start()
@@ -136,14 +140,16 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 
 @onready var gun_sprite: Sprite2D = $Pivot/Gun/Sprite2D
 func _on_normal_state_state_processing(delta: float) -> void:
+
 	var input := Input.get_vector(gun_left_action, gun_right_action, gun_up_action, gun_down_action).normalized()
 	if input != Vector2.ZERO:
 		gun_pivot.rotation = atan2(input.y, input.x)
 		gun_sprite.flip_v = input.x < 0
-	if player_index == 1:
-		var mouse_pos := get_global_mouse_position()
-		var direction := (mouse_pos - global_position).normalized()
-		gun_pivot.rotation = atan2(direction.y, direction.x)
+	if keyboard:
+		if player_index == 1:
+			var mouse_pos := get_global_mouse_position()
+			var direction := (mouse_pos - global_position).normalized()
+			gun_pivot.rotation = atan2(direction.y, direction.x)
 
 
 
