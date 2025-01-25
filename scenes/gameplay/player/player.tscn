@@ -54,6 +54,8 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
+movement_speed = 400.0
+ground_acceleration = 2.5
 jump_height = 150.0
 gravity = 800.0
 jump_release_multiplier = 2.0
@@ -143,11 +145,10 @@ event = &"reset"
 delay_in_seconds = "0.0"
 
 [node name="BubbledTimer" type="Timer" parent="."]
-wait_time = 1.5
 one_shot = true
 
 [node name="ShootingTimer" type="Timer" parent="."]
-wait_time = 0.35
+wait_time = 0.4
 one_shot = true
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]

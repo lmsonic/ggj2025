@@ -8,7 +8,7 @@ radius = 20.0
 
 [node name="Bubble" type="Area2D"]
 script = ExtResource("1_uedqm")
-upward_force = 100.0
+upward_force = 200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6jkhh")
@@ -18,7 +18,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_1o5e2")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true
 autostart = true
 

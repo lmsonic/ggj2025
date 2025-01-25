@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cvhsplhbwlc4n"]
+[gd_scene load_steps=14 format=3 uid="uid://cvhsplhbwlc4n"]
 
 [ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_dx42o"]
 [ext_resource type="Script" path="res://scenes/gameplay/death.gd" id="3_gsg3f"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bmwes47opj7q8" path="res://assets/sprites/star.png" id="6_ijokh"]
 [ext_resource type="AudioStream" uid="uid://d0nhkfdvfbl5e" path="res://assets/GlobalGameJam.mp3" id="8_0bw30"]
 [ext_resource type="PackedScene" uid="uid://bcd4crsaffbtw" path="res://scenes/moving_platform.tscn" id="8_lsq1r"]
+[ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="9_lx0gk"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6pmis"]
 normal = Vector2(0, 1)
@@ -103,6 +104,8 @@ debug_color = Color(0.611947, 0.538247, 0, 0.42)
 stream = ExtResource("8_0bw30")
 autoplay = true
 bus = &"BGM"
+
+[node name="PauseLayer" parent="." instance=ExtResource("9_lx0gk")]
 
 [connection signal="timeout" from="ScrollingPlatforms/Timer" to="ScrollingPlatforms" method="_on_timer_timeout"]
 

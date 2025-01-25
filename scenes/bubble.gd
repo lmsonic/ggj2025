@@ -1,7 +1,8 @@
 class_name Bubble extends Area2D
 
-@export var upward_force := 50.0
-@export var force := 300.0
+@export var upward_force := 150.0
+@export var recoil := 300.0
+@export var force := 250.0
 @export var speed := 400.0
 var direction:=Vector2.RIGHT
 var player_index:=0
