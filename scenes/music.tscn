@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8nmqxi7xb8am"]
+
+[ext_resource type="AudioStream" uid="uid://d0nhkfdvfbl5e" path="res://assets/GlobalGameJam.mp3" id="1_0swxa"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_0swxa")
+autoplay = true
+bus = &"BGM"

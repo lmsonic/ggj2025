@@ -1,10 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://w071v8bxvrrl"]
+[gd_scene load_steps=7 format=3 uid="uid://w071v8bxvrrl"]
 
 [ext_resource type="Script" path="res://scenes/bubble.gd" id="1_uedqm"]
 [ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="2_1o5e2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6jkhh"]
 radius = 20.0
+
+[sub_resource type="Animation" id="Animation_1axnv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 2)]
+}
+
+[sub_resource type="Animation" id="Animation_53vfv"]
+resource_name = "loop"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 1, 2),
+"transitions": PackedFloat32Array(2, 2, 2),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(2.5, 2.5), Vector2(2, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mkyrv"]
+_data = {
+"RESET": SubResource("Animation_1axnv"),
+"loop": SubResource("Animation_53vfv")
+}
 
 [node name="Bubble" type="Area2D"]
 script = ExtResource("1_uedqm")
@@ -21,6 +59,12 @@ texture = ExtResource("2_1o5e2")
 wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mkyrv")
+}
+autoplay = "loop"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
