@@ -155,7 +155,7 @@ one_shot = true
 one_shot = true
 
 [node name="NoInputTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.2
 one_shot = true
 
 [connection signal="state_processing" from="StateChart/CompoundState" to="." method="_on_compound_state_state_processing"]
