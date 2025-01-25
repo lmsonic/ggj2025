@@ -9,5 +9,5 @@ func _ready() -> void:
 
 func on_body_entered(node:Node2D) -> void:
 	var player := node as Player
-	if player:
+	if player and player.is_in_bubble():
 		player.die()

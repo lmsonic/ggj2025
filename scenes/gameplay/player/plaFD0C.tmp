@@ -19,7 +19,7 @@ radius = 45.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
-jump_height = 150.0
+jump_height = 100.0
 gravity = 1000.0
 jump_release_multiplier = 2.0
 bubble = ExtResource("3_s1jnl")

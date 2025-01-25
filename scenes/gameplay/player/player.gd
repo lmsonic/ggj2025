@@ -99,7 +99,7 @@ func die() -> void:
 func bubbled(bubble: Bubble) -> void:
 	if invulnerability_timer.is_stopped():
 		state_chart.send_event("bubbled")
-		velocity = bubble.direction * bubble.force
+		velocity = bubble.direction * bubble.force + Vector2.UP * bubble.upward_force
 		no_input_timer.start()
 
 func get_closest_axis(direction: Vector2) -> Vector2:
@@ -211,7 +211,6 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 
 func _on_bubbled_state_state_entered() -> void:
 	bubbled_timer.start()
-
 	bubble_shape.show()
 
 func _on_bubbled_state_state_exited() -> void:
@@ -233,3 +232,6 @@ func _on_bubbled_state_state_physics_processing(delta: float) -> void:
 
 func _on_bubbled_timer_timeout() -> void:
 	state_chart.send_event("popped")
+
+func is_in_bubble() -> bool:
+	return not bubbled_timer.is_stopped()

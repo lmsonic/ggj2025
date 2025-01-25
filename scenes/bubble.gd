@@ -1,6 +1,6 @@
 class_name Bubble extends Area2D
 
-
+@export var upward_force := 50.0
 @export var force := 300.0
 @export var speed := 400.0
 var direction:=Vector2.RIGHT
@@ -17,3 +17,7 @@ func _on_body_entered(body: Node2D) -> void:
 	var bouncy := body as Bouncy
 	if bouncy:
 		direction = direction.bounce(bouncy.normal())
+
+
+func _on_timer_timeout() -> void:
+	queue_free()
