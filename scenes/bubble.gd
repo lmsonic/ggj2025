@@ -1,7 +1,7 @@
 class_name Bubble extends Area2D
 
 
-@export var force := 400.0
+@export var force := 300.0
 @export var speed := 400.0
 var direction:=Vector2.RIGHT
 var player_index:=0
@@ -14,3 +14,6 @@ func _on_body_entered(body: Node2D) -> void:
 	if player and player_index != player.player_index:
 		player.bubbled(self)
 		queue_free()
+	var bouncy := body as Bouncy
+	if bouncy:
+		direction = direction.bounce(bouncy.normal())

@@ -99,9 +99,8 @@ func die() -> void:
 func bubbled(bubble: Bubble) -> void:
 	if invulnerability_timer.is_stopped():
 		state_chart.send_event("bubbled")
-		bubbled_timer.start()
 		velocity = bubble.direction * bubble.force
-		move_and_slide()
+		no_input_timer.start()
 
 func get_closest_axis(direction: Vector2) -> Vector2:
 	return direction.snapped(Vector2.ONE).normalized()
@@ -154,6 +153,10 @@ func accelerate(horizontal_input: float, acceleration: float, delta: float, max_
 	velocity.x = clamp(velocity.x, -movement_speed, movement_speed)
 
 func _on_normal_state_state_physics_processing(delta: float) -> void:
+	if not no_input_timer.is_stopped():
+		move_and_slide()
+		return
+
 	var horizontal_input := Input.get_axis(move_left_action, move_right_action)
 
 	var acceleration := ground_acceleration if is_on_floor() else air_acceleration
@@ -187,6 +190,12 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 	# Gravity
 	velocity.y += gravity * delta * calculate_fall_multiplier()
 	velocity.y = min(velocity.y, max_fall_speed)
+	var collision := move_and_collide(velocity*delta,true)
+	if collision:
+		var bouncy :Bouncy= collision.get_collider() as Bouncy
+		if bouncy:
+			velocity = velocity.bounce(collision.get_normal())
+			no_input_timer.start()
 
 	move_and_slide()
 
@@ -197,18 +206,24 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 @onready var bubbled_timer: Timer = $BubbledTimer
 
 func _on_bubbled_state_state_entered() -> void:
+	bubbled_timer.start()
+
 	bubble_shape.show()
 
 func _on_bubbled_state_state_exited() -> void:
 	bubble_shape.hide()
 
-func _on_bubbled_state_state_physics_processing(delta: float) -> void:
-	if bubbled_timer.time_left < bubbled_timer.wait_time - 0.1:
-		var horizontal_input := Input.get_axis(move_left_action, move_right_action)
-		var acceleration := air_acceleration
-		accelerate(horizontal_input, acceleration, delta, bubbled_horizontal_speed)
+@onready var no_input_timer: Timer = $NoInputTimer
 
-		velocity.y = lerpf(velocity.y, -bubbled_up_speed, air_acceleration * delta)
+func _on_bubbled_state_state_physics_processing(delta: float) -> void:
+	if not no_input_timer.is_stopped():
+		move_and_slide()
+		return
+	var horizontal_input := Input.get_axis(move_left_action, move_right_action)
+	var acceleration := air_acceleration
+	accelerate(horizontal_input, acceleration, delta, bubbled_horizontal_speed)
+
+	velocity.y = lerpf(velocity.y, -bubbled_up_speed, air_acceleration * delta)
 	move_and_slide()
 
 func _on_bubbled_timer_timeout() -> void:

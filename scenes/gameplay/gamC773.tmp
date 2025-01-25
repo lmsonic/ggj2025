@@ -35,7 +35,7 @@ normal = Vector2(0, 1)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_srqm1"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ah0d1"]
-normal = Vector2(1, 0)
+normal = Vector2(-1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fav26"]
 normal = Vector2(-1, 0)
@@ -100,6 +100,7 @@ shape = SubResource("WorldBoundaryShape2D_srqm1")
 
 [node name="BlastZone2" type="StaticBody2D" parent="Stage/BlastZones"]
 position = Vector2(4, 57)
+rotation = -3.14159
 script = ExtResource("2_s43vo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/BlastZones/BlastZone2"]
@@ -107,7 +108,6 @@ shape = SubResource("WorldBoundaryShape2D_ah0d1")
 
 [node name="BlastZone3" type="StaticBody2D" parent="Stage/BlastZones"]
 position = Vector2(895, 42)
-script = ExtResource("2_s43vo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/BlastZones/BlastZone3"]
 shape = SubResource("WorldBoundaryShape2D_fav26")

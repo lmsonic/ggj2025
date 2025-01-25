@@ -19,6 +19,7 @@ radius = 45.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
+jump_height = 100.0
 gravity = 1000.0
 jump_release_multiplier = 2.0
 bubble = ExtResource("3_s1jnl")
@@ -102,14 +103,18 @@ event = &"reset"
 delay_in_seconds = "0.0"
 
 [node name="BubbledTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.5
 one_shot = true
 
 [node name="ShootingTimer" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.35
 one_shot = true
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="NoInputTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [connection signal="state_processing" from="StateChart/CompoundState" to="." method="_on_compound_state_state_processing"]
