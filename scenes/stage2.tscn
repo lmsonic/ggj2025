@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://cvhsplhbwlc4n"]
+
+[ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_dx42o"]
+[ext_resource type="Script" path="res://scenes/gameplay/death.gd" id="3_gsg3f"]
+[ext_resource type="Script" path="res://scenes/gameplay/bouncy.gd" id="4_byxyq"]
+[ext_resource type="PackedScene" uid="uid://csgf652oh7exy" path="res://scenes/gameplay/player/player.tscn" id="5_5vxs8"]
+[ext_resource type="Script" path="res://scenes/scrolling_platforms.gd" id="6_0lmxh"]
+[ext_resource type="Texture2D" uid="uid://bmwes47opj7q8" path="res://assets/sprites/star.png" id="6_ijokh"]
+[ext_resource type="AudioStream" uid="uid://d0nhkfdvfbl5e" path="res://assets/GlobalGameJam.mp3" id="8_0bw30"]
+[ext_resource type="PackedScene" uid="uid://bcd4crsaffbtw" path="res://scenes/moving_platform.tscn" id="8_lsq1r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6pmis"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_srqm1"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ah0d1"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fav26"]
+normal = Vector2(-1, 0)
+
+[node name="Stage" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(483, 273)
+scale = Vector2(6.02222, 6.02222)
+texture = ExtResource("1_dx42o")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(445, 253)
+zoom = Vector2(1.3, 1.3)
+
+[node name="BlastZones" type="Node2D" parent="."]
+position = Vector2(-4, 0)
+
+[node name="BlastZone" type="Area2D" parent="BlastZones"]
+position = Vector2(23, -13)
+script = ExtResource("3_gsg3f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone"]
+position = Vector2(0, -35)
+shape = SubResource("WorldBoundaryShape2D_6pmis")
+
+[node name="BlastZone4" type="Area2D" parent="BlastZones"]
+position = Vector2(0, 533)
+script = ExtResource("3_gsg3f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone4"]
+shape = SubResource("WorldBoundaryShape2D_srqm1")
+
+[node name="BlastZone2" type="StaticBody2D" parent="BlastZones"]
+position = Vector2(4, 57)
+script = ExtResource("4_byxyq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone2"]
+shape = SubResource("WorldBoundaryShape2D_ah0d1")
+
+[node name="BlastZone3" type="StaticBody2D" parent="BlastZones"]
+position = Vector2(895, 42)
+script = ExtResource("4_byxyq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone3"]
+shape = SubResource("WorldBoundaryShape2D_fav26")
+
+[node name="Player" parent="." instance=ExtResource("5_5vxs8")]
+position = Vector2(665, 327)
+
+[node name="Player2" parent="." instance=ExtResource("5_5vxs8")]
+position = Vector2(248, 332)
+player_index = 1
+move_left_action = "move_left2"
+move_right_action = "move_right2"
+move_down_action = "move_down2"
+jump_action = "jump2"
+gun_left_action = "gun_left2"
+gun_right_action = "gun_right2"
+gun_up_action = "gun_up2"
+gun_down_action = "gun_down2"
+shoot_action = "shoot2"
+
+[node name="Sprite2D" parent="Player2" index="0"]
+texture = ExtResource("6_ijokh")
+
+[node name="CollisionShape2D" parent="Player2" index="2"]
+debug_color = Color(0.611947, 0.538247, 0, 0.42)
+
+[node name="ScrollingPlatforms" type="Node2D" parent="."]
+script = ExtResource("6_0lmxh")
+
+[node name="MovingPlatform" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
+position = Vector2(248, 409)
+
+[node name="MovingPlatform2" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
+position = Vector2(665, 409)
+
+[node name="Timer" type="Timer" parent="ScrollingPlatforms"]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_0bw30")
+autoplay = true
+
+[connection signal="timeout" from="ScrollingPlatforms/Timer" to="ScrollingPlatforms" method="_on_timer_timeout"]
+
+[editable path="Player2"]

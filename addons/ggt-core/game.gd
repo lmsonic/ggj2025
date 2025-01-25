@@ -3,7 +3,7 @@
 extends Node
 
 
-var size: get = get_size
+var size:Vector2: get = get_size
 
 
 func change_scene_to_file(new_scene: String, params = {}):
@@ -25,5 +25,5 @@ func restart_scene_with_params(override_params):
 	change_scene_to_file(scene_data.path, override_params)
 
 
-func get_size():
+func get_size() -> Vector2:
 	return get_viewport().get_visible_rect().size

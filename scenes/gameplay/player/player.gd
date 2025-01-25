@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 @export_group("Actions")
 @export var move_left_action := "move_left"
 @export var move_right_action := "move_right"
+@export var move_down_action := "move_down"
 @export var jump_action := "jump"
 @export var gun_left_action := "gun_left"
 @export var gun_right_action := "gun_right"
@@ -85,6 +86,7 @@ func _on_compound_state_state_processing(delta: float) -> void:
 		else: show()
 		invulnerability_flash_timer = 0.05
 
+
 func die() -> void:
 	if lives == 1:
 		Game.restart_scene()
@@ -164,6 +166,8 @@ func handle_bouncy(delta:float)-> void:
 			no_input_timer.start()
 
 func _on_normal_state_state_physics_processing(delta: float) -> void:
+	if not invulnerability_timer.is_stopped():
+		return
 	if not no_input_timer.is_stopped():
 		move_and_slide()
 		return
@@ -198,8 +202,20 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 		var apex_point := inverse_lerp(apex_threshold, 0, absf(velocity.y))
 		velocity.x += sign(horizontal_input) * apex_speed_boost * apex_point
 
+	if Input.is_action_pressed(move_down_action):
+		var collision := move_and_collide(Vector2.DOWN,true)
+		if collision:
+			var shape :CollisionShape2D= collision.get_collider_shape()
+			var body :Node= collision.get_collider()
+			if shape.one_way_collision:
+				add_collision_exception_with(body)
+				await get_tree().create_timer(0.4).timeout
+				remove_collision_exception_with(body)
+
+
 	# Gravity
-	velocity.y += gravity * delta * calculate_fall_multiplier()
+	if invulnerability_timer.is_stopped():
+		velocity.y += gravity * delta * calculate_fall_multiplier()
 	velocity.y = min(velocity.y, max_fall_speed)
 
 	handle_bouncy(delta)
@@ -222,6 +238,8 @@ func _on_bubbled_state_state_exited() -> void:
 @onready var no_input_timer: Timer = $NoInputTimer
 
 func _on_bubbled_state_state_physics_processing(delta: float) -> void:
+	if not invulnerability_timer.is_stopped():
+		return
 	if not no_input_timer.is_stopped():
 		move_and_slide()
 		return
@@ -229,7 +247,8 @@ func _on_bubbled_state_state_physics_processing(delta: float) -> void:
 	var acceleration := air_acceleration
 	accelerate(horizontal_input, acceleration, delta, bubbled_horizontal_speed)
 
-	velocity.y = lerpf(velocity.y, -bubbled_up_speed, air_acceleration * delta)
+	if invulnerability_timer.is_stopped():
+		velocity.y = lerpf(velocity.y, -bubbled_up_speed, air_acceleration * delta)
 	handle_bouncy(delta)
 	move_and_slide()
 
