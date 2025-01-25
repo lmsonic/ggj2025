@@ -114,6 +114,7 @@ func update_facing() -> void:
 @onready var gun: Node2D = $Pivot/Gun
 @export var bubble: PackedScene
 @onready var shooting_timer: Timer = $ShootingTimer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _on_normal_state_state_input(event: InputEvent) -> void:
 	if event.is_action_pressed(shoot_action):
@@ -123,6 +124,8 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 			bub.direction = Vector2.RIGHT.rotated(gun_pivot.rotation)
 			bub.player_index = player_index
 			bub.global_position = gun.global_position
+			animation_player.stop()
+			animation_player.play("shoot")
 			get_tree().current_scene.add_child(bub)
 
 @onready var gun_sprite: Sprite2D = $Pivot/Gun/Sprite2D
