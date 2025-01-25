@@ -146,6 +146,7 @@ position = Vector2(-4, 0)
 [node name="BlastZone" type="Area2D" parent="Stage/BlastZones"]
 position = Vector2(23, -13)
 script = ExtResource("2_cgdq1")
+need_bubble = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/BlastZones/BlastZone"]
 position = Vector2(0, -35)
