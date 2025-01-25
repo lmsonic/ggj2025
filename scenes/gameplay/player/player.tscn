@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_k1sji"]
 [ext_resource type="Texture2D" uid="uid://b0drnw2msmkei" path="res://assets/sprites/sponge.png" id="3_pdsfg"]
 [ext_resource type="PackedScene" uid="uid://w071v8bxvrrl" path="res://scenes/bubble.tscn" id="3_s1jnl"]
+[ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="4_75scf"]
 [ext_resource type="Texture2D" uid="uid://cfthqo4v8ak6t" path="res://assets/sprites/gun.png" id="4_i4t5n"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_iguby"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_q7oqp"]
@@ -13,9 +14,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8u84x"]
 size = Vector2(52, 68)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8nyro"]
-radius = 45.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
@@ -54,12 +52,12 @@ position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_8u84x")
 debug_color = Color(0.991982, 0, 0.258302, 0.42)
 
-[node name="BubbleShape" type="CollisionShape2D" parent="."]
+[node name="BubbleShape" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, 5)
-shape = SubResource("CircleShape2D_8nyro")
-disabled = true
-debug_color = Color(0.991982, 0, 0.258302, 0.42)
+modulate = Color(1, 1, 1, 0.392157)
+position = Vector2(0, 4)
+scale = Vector2(7, 7)
+texture = ExtResource("4_75scf")
 
 [node name="Pivot" type="Node2D" parent="."]
 

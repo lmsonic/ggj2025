@@ -203,7 +203,7 @@ func _on_normal_state_state_physics_processing(delta: float) -> void:
 
 	move_and_slide()
 
-@onready var bubble_shape: CollisionShape2D = $BubbleShape
+@onready var bubble_shape: Sprite2D = $BubbleShape
 @export_group("Bubble State")
 @export var bubbled_up_speed := 1000.0
 @export var bubbled_horizontal_speed := 1000.0
