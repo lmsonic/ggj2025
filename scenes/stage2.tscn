@@ -63,6 +63,20 @@ script = ExtResource("4_byxyq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone3"]
 shape = SubResource("WorldBoundaryShape2D_fav26")
 
+[node name="ScrollingPlatforms" type="Node2D" parent="."]
+script = ExtResource("6_0lmxh")
+
+[node name="MovingPlatform" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
+position = Vector2(248, 409)
+
+[node name="MovingPlatform2" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
+position = Vector2(665, 409)
+
+[node name="Timer" type="Timer" parent="ScrollingPlatforms"]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
 [node name="Player" parent="." instance=ExtResource("5_5vxs8")]
 position = Vector2(665, 327)
 
@@ -85,23 +99,10 @@ texture = ExtResource("6_ijokh")
 [node name="CollisionShape2D" parent="Player2" index="2"]
 debug_color = Color(0.611947, 0.538247, 0, 0.42)
 
-[node name="ScrollingPlatforms" type="Node2D" parent="."]
-script = ExtResource("6_0lmxh")
-
-[node name="MovingPlatform" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
-position = Vector2(248, 409)
-
-[node name="MovingPlatform2" parent="ScrollingPlatforms" instance=ExtResource("8_lsq1r")]
-position = Vector2(665, 409)
-
-[node name="Timer" type="Timer" parent="ScrollingPlatforms"]
-wait_time = 2.0
-one_shot = true
-autostart = true
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_0bw30")
 autoplay = true
+bus = &"BGM"
 
 [connection signal="timeout" from="ScrollingPlatforms/Timer" to="ScrollingPlatforms" method="_on_timer_timeout"]
 

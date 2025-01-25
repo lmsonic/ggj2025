@@ -1,9 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2gocuhw2o7py"]
+[gd_scene load_steps=10 format=3 uid="uid://c2gocuhw2o7py"]
 
 [ext_resource type="FontFile" uid="uid://da2t6lyf41wty" path="res://assets/fonts/open-sans/open-sans-bold.ttf" id="4"]
 [ext_resource type="Script" path="res://scenes/menu/game_version.gd" id="4_3hod2"]
 [ext_resource type="Script" path="res://scenes/menu/menu.gd" id="5"]
 [ext_resource type="Script" path="res://scenes/menu/godot_version.gd" id="5_fdyjp"]
+
+[sub_resource type="Animation" id="Animation_e1el4"]
+resource_name = "background"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.56667, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(5.77569e-07, 0.705909, 0.596594, 1), Color(0.352171, 0.683519, 0.999998, 1), Color(5.77569e-07, 0.705909, 0.596594, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_c52gy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.4715, 0.69, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kplka"]
+_data = {
+"RESET": SubResource("Animation_c52gy"),
+"background": SubResource("Animation_e1el4")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_o2ju1"]
+font_color = Color(0.7861, 0.1932, 0.84, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1s886"]
+font_color = Color(0.86, 0.100333, 0, 1)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -14,6 +58,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kplka")
+}
+autoplay = "background"
+
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -21,7 +71,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.230545, 0.646329, 0.834668, 1)
+color = Color(0, 0.4715, 0.69, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -70,22 +120,28 @@ theme_override_constants/separation = 16
 [node name="Stage1Button" type="Button" parent="MarginContainer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../ExitButton")
-focus_next = NodePath("../ExitButton")
+focus_neighbor_top = NodePath("../ExitButton")
+focus_neighbor_bottom = NodePath("../Stage2Button")
+focus_next = NodePath("../Stage2Button")
+focus_previous = NodePath("../ExitButton")
 text = "BATTLEFIELD"
 
 [node name="Stage2Button" type="Button" parent="MarginContainer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Stage1Button")
 focus_neighbor_bottom = NodePath("../ExitButton")
 focus_next = NodePath("../ExitButton")
+focus_previous = NodePath("../Stage1Button")
 text = "SCROLLING STAGE"
 
 [node name="ExitButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Stage1Button")
-focus_previous = NodePath("../Stage1Button")
+focus_neighbor_top = NodePath("../Stage2Button")
+focus_neighbor_bottom = NodePath("../Stage1Button")
+focus_next = NodePath("../Stage1Button")
+focus_previous = NodePath("../Stage2Button")
 text = "EXIT"
 
 [node name="Version" type="VBoxContainer" parent="MarginContainer/Control"]
@@ -126,19 +182,21 @@ grow_vertical = 0
 layout_mode = 2
 theme_type_variation = &"LabelSmall"
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "made by: ..."
+text = "made by:"
 
 [node name="Developer1" type="Label" parent="MarginContainer/Control/Credits"]
 layout_mode = 2
 theme_type_variation = &"LabelSmall"
 theme_override_colors/font_color = Color(0.92549, 0.92549, 0.92549, 1)
 text = "Iride Massidda"
+label_settings = SubResource("LabelSettings_o2ju1")
 
 [node name="Developer2" type="Label" parent="MarginContainer/Control/Credits"]
 layout_mode = 2
 theme_type_variation = &"LabelSmall"
 theme_override_colors/font_color = Color(0.886275, 0.87451, 0.87451, 1)
 text = "Gaia Casti"
+label_settings = SubResource("LabelSettings_1s886")
 
 [node name="Developer3" type="Label" parent="MarginContainer/Control/Credits"]
 layout_mode = 2
