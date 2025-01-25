@@ -256,8 +256,8 @@ text = "
 (KEYBOARD) only for player 2
 MOVE LEFT AND RIGHT: A and D
 POINT BUBBLE GUN: Mouse
-JUMP: Left Shift
-SHOOT: Space or Left Mouse Button
+JUMP: Space
+SHOOT: Left Mouse Button
 "
 label_settings = SubResource("LabelSettings_am8rt")
 horizontal_alignment = 1
