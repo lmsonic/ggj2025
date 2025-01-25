@@ -122,8 +122,10 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 	if event.is_action_pressed(shoot_action):
 		if shooting_timer.is_stopped():
 			shooting_timer.start()
+			var direction := Vector2.RIGHT.rotated(gun_pivot.rotation)
 			var bub: Bubble = bubble.instantiate()
-			bub.direction = Vector2.RIGHT.rotated(gun_pivot.rotation)
+			velocity -= direction * bub.force
+			bub.direction = direction
 			bub.player_index = player_index
 			bub.global_position = gun.global_position
 			animation_player.stop()
@@ -166,8 +168,6 @@ func handle_bouncy(delta:float)-> void:
 			no_input_timer.start()
 
 func _on_normal_state_state_physics_processing(delta: float) -> void:
-	if not invulnerability_timer.is_stopped():
-		return
 	if not no_input_timer.is_stopped():
 		move_and_slide()
 		return

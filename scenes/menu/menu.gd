@@ -9,10 +9,6 @@ func _ready() -> void:
 	if OS.has_feature('web'):
 		btn_exit.queue_free() # exit button dosn't make sense on HTML5
 
-
-
-
-
 func _on_ExitButton_pressed() -> void:
 	# gently shutdown the game
 	var transitions :Transitions= get_node_or_null("/root/Transitions")
