@@ -11,3 +11,4 @@ func _on_body_entered(body: Node2D) -> void:
 	var player := body as Player
 	if player and player_index != player.player_index:
 		player.bubbled(self)
+		queue_free()
