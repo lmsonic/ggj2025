@@ -57,6 +57,11 @@ func calculate_fall_multiplier() -> float:
 		return fall_multiplier
 	return 1.0
 
+func _ready() -> void:
+	var players:=get_tree().get_nodes_in_group("player")
+	for player:Player in players:
+		self.add_collision_exception_with(player)
+
 func reset() -> void:
 	state_chart.send_event("reset")
 	velocity = Vector2.ZERO
@@ -67,6 +72,19 @@ func reset() -> void:
 
 @onready var lives_label: Label = $LivesLabel
 @onready var spawn_point:= global_position
+@onready var invulnerability_timer: Timer = $InvulnerabilityTimer
+@onready var invulnerability_flash_timer: = 0.05
+
+func _on_compound_state_state_processing(delta: float) -> void:
+	if invulnerability_timer.is_stopped():
+		if not visible : show()
+		return
+	invulnerability_flash_timer -= delta
+	if invulnerability_flash_timer <= 0:
+		if visible : hide()
+		else: show()
+		invulnerability_flash_timer = 0.05
+
 func die() -> void:
 	if lives == 1:
 		Game.restart_scene()
@@ -75,12 +93,14 @@ func die() -> void:
 	global_position = spawn_point
 	lives_label.text = "●".repeat(lives)
 	reset()
+	invulnerability_timer.start()
 
 
 func bubbled(bubble:Bubble) -> void:
-	state_chart.send_event("bubbled")
-	velocity += bubble.direction * bubble.speed
-	move_and_slide()
+	if invulnerability_timer.is_stopped():
+		state_chart.send_event("bubbled")
+		velocity += bubble.direction * bubble.speed
+		move_and_slide()
 
 func get_closest_axis(direction:Vector2) -> Vector2:
 	return direction.snapped(Vector2.ONE).normalized()
