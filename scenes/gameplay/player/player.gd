@@ -121,8 +121,10 @@ func update_facing() -> void:
 var keyboard:= false
 
 func _on_normal_state_state_input(event: InputEvent) -> void:
-	keyboard = event is InputEventMouseMotion
-	keyboard = event is not InputEventJoypadMotion
+	if event is InputEventMouseMotion:
+		keyboard = true
+	if event is InputEventJoypadMotion:
+		keyboard = false
 	if event.is_action_pressed(shoot_action):
 		if shooting_timer.is_stopped():
 			shooting_timer.start()
