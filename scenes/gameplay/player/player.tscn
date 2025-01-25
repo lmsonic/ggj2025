@@ -60,7 +60,7 @@ jump_height = 150.0
 gravity = 800.0
 jump_release_multiplier = 2.0
 bubble = ExtResource("3_s1jnl")
-bubbled_up_speed = 50.0
+bubbled_up_speed = 40.0
 bubbled_horizontal_speed = 400.0
 metadata/_edit_group_ = true
 

@@ -151,7 +151,7 @@ script = ExtResource("4_fvojo")
 shape = SubResource("WorldBoundaryShape2D_fav26")
 
 [node name="Player" parent="." instance=ExtResource("5_68fcc")]
-position = Vector2(665, 381)
+position = Vector2(668, 384)
 
 [node name="Player2" parent="." instance=ExtResource("5_68fcc")]
 position = Vector2(228, 384)
@@ -178,5 +178,6 @@ autoplay = true
 bus = &"BGM"
 
 [node name="PauseLayer" parent="." instance=ExtResource("9_g7opv")]
+visible = false
 
 [editable path="Player2"]

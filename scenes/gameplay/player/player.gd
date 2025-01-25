@@ -124,7 +124,7 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 			shooting_timer.start()
 			var direction := Vector2.RIGHT.rotated(gun_pivot.rotation)
 			var bub: Bubble = bubble.instantiate()
-			velocity = -direction * bub.recoil
+			velocity -= direction * bub.recoil
 			bub.direction = direction
 			bub.player_index = player_index
 			bub.global_position = gun.global_position

@@ -2,9 +2,6 @@ extends Node2D
 const MOVING_PLATFORM = preload("res://scenes/moving_platform.tscn")
 @onready var timer: Timer = $Timer
 
-func _physics_process(delta: float) -> void:
-	print(timer.time_left)
-
 func _on_timer_timeout() -> void:
 	var platform :MovingPlatform= MOVING_PLATFORM.instantiate()
 	platform.global_position.y = Game.size.y*0.8
