@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cvhsplhbwlc4n"]
+[gd_scene load_steps=18 format=3 uid="uid://cvhsplhbwlc4n"]
 
 [ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_dx42o"]
+[ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="2_io8wl"]
 [ext_resource type="Script" path="res://scenes/gameplay/death.gd" id="3_gsg3f"]
 [ext_resource type="Script" path="res://scenes/gameplay/bouncy.gd" id="4_byxyq"]
 [ext_resource type="PackedScene" uid="uid://csgf652oh7exy" path="res://scenes/gameplay/player/player.tscn" id="5_5vxs8"]
@@ -9,6 +10,21 @@
 [ext_resource type="PackedScene" uid="uid://c8nmqxi7xb8am" path="res://scenes/music.tscn" id="8_7cyj3"]
 [ext_resource type="PackedScene" uid="uid://bcd4crsaffbtw" path="res://scenes/moving_platform.tscn" id="8_lsq1r"]
 [ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="9_lx0gk"]
+
+[sub_resource type="Gradient" id="Gradient_7do60"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c5i03"]
+gradient = SubResource("Gradient_7do60")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0tl52"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 30, 1)
+gravity = Vector3(0, 90, 0)
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_c5i03")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6pmis"]
 normal = Vector2(0, 1)
@@ -27,6 +43,16 @@ normal = Vector2(-1, 0)
 position = Vector2(483, 273)
 scale = Vector2(6.02222, 6.02222)
 texture = ExtResource("1_dx42o")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.76, 0.76, 0.76, 0.517647)
+position = Vector2(445, 21)
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_0tl52")
+texture = ExtResource("2_io8wl")
+lifetime = 0.5
+preprocess = 1.0
+visibility_rect = Rect2(0, 0, 0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(445, 253)
