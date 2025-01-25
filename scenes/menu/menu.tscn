@@ -213,6 +213,33 @@ theme_override_colors/font_color = Color(0.886275, 0.87451, 0.87451, 1)
 text = "QA & Design: Riccardo Myst & Leonardo"
 label_settings = SubResource("LabelSettings_5pd4k")
 
+[node name="Controls" type="VBoxContainer" parent="MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -124.0
+offset_right = 392.0
+offset_bottom = 183.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Controls"]
+layout_mode = 2
+theme_type_variation = &"LabelSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "CONTROLS: 
+(JOYPAD)
+MOVE LEFT AND RIGHT: LEFT STICK
+POINT BUBBLE GUN: RIGHT STICK
+JUMP: A or LB
+(KEYBOARD) only for player 2
+MOVE LEFT AND RIGHT: A and D
+POINT BUBBLE GUN: MOUSE
+JUMP: SPACE
+SHOOT: LEFT MOUSE BUTTON
+"
+label_settings = SubResource("LabelSettings_am8rt")
+
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/Stage1Button" to="." method="_on_stage_1_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/Stage2Button" to="." method="_on_stage_2_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
