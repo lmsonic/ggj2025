@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://csgf652oh7exy"]
+[gd_scene load_steps=12 format=3 uid="uid://csgf652oh7exy"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/player/player.gd" id="1_4hanh"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_k1sji"]
+[ext_resource type="Texture2D" uid="uid://b0drnw2msmkei" path="res://assets/sprites/sponge.png" id="3_pdsfg"]
 [ext_resource type="PackedScene" uid="uid://w071v8bxvrrl" path="res://scenes/bubble.tscn" id="3_s1jnl"]
+[ext_resource type="Texture2D" uid="uid://cfthqo4v8ak6t" path="res://assets/sprites/gun.png" id="4_i4t5n"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_iguby"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_q7oqp"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="6_jlf8l"]
@@ -10,13 +12,10 @@
 [sub_resource type="LabelSettings" id="LabelSettings_sdatj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8u84x"]
-size = Vector2(30, 60)
+size = Vector2(32, 54)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8nyro"]
 radius = 40.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_balnd"]
-size = Vector2(22, 10)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
@@ -26,6 +25,10 @@ bubble = ExtResource("3_s1jnl")
 bubbled_up_speed = 50.0
 bubbled_horizontal_speed = 400.0
 metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("3_pdsfg")
 
 [node name="LivesLabel" type="Label" parent="."]
 anchors_preset = 7
@@ -45,6 +48,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_8u84x")
 debug_color = Color(0.991982, 0, 0.258302, 0.42)
 
@@ -59,9 +64,9 @@ debug_color = Color(0.991982, 0, 0.258302, 0.42)
 [node name="Gun" type="Node2D" parent="Pivot"]
 position = Vector2(30, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Gun"]
-shape = SubResource("RectangleShape2D_balnd")
-debug_color = Color(0.992157, 0, 0.258824, 0.419608)
+[node name="Sprite2D" type="Sprite2D" parent="Pivot/Gun"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_i4t5n")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("3_k1sji")

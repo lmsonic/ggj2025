@@ -104,9 +104,11 @@ func bubbled(bubble:Bubble) -> void:
 
 func get_closest_axis(direction:Vector2) -> Vector2:
 	return direction.snapped(Vector2.ONE).normalized()
+@onready var sprite: Sprite2D = $Sprite2D
 
 func update_facing() -> void:
 	facing_right = velocity.x > 0
+	sprite.flip_h = !facing_right
 
 @onready var gun_pivot: Node2D = $Pivot
 @onready var gun: Node2D = $Pivot/Gun
