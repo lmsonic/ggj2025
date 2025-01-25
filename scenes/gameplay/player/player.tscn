@@ -1,10 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://csgf652oh7exy"]
+[gd_scene load_steps=10 format=3 uid="uid://csgf652oh7exy"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/player/player.gd" id="1_4hanh"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_k1sji"]
 [ext_resource type="PackedScene" uid="uid://w071v8bxvrrl" path="res://scenes/bubble.tscn" id="3_s1jnl"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_iguby"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_q7oqp"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="6_jlf8l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8u84x"]
 size = Vector2(30, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8nyro"]
+radius = 45.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_balnd"]
 size = Vector2(22, 10)
@@ -14,10 +21,17 @@ script = ExtResource("1_4hanh")
 gravity = 1000.0
 jump_release_multiplier = 2.0
 bubble = ExtResource("3_s1jnl")
+bubbled_up_speed = 50.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_8u84x")
+debug_color = Color(0.991982, 0, 0.258302, 0.42)
+
+[node name="BubbleShape" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_8nyro")
+disabled = true
 debug_color = Color(0.991982, 0, 0.258302, 0.42)
 
 [node name="Pivot" type="Node2D" parent="."]
@@ -28,3 +42,29 @@ position = Vector2(30, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Gun"]
 shape = SubResource("RectangleShape2D_balnd")
 debug_color = Color(0.992157, 0, 0.258824, 0.419608)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("3_k1sji")
+
+[node name="CompoundState" type="Node" parent="StateChart"]
+script = ExtResource("4_q7oqp")
+initial_state = NodePath("NormalState")
+
+[node name="NormalState" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_iguby")
+
+[node name="Transition" type="Node" parent="StateChart/CompoundState/NormalState"]
+script = ExtResource("6_jlf8l")
+to = NodePath("../../BubbledState")
+event = &"bubbled"
+delay_in_seconds = "0.0"
+
+[node name="BubbledState" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_iguby")
+
+[connection signal="state_input" from="StateChart/CompoundState/NormalState" to="." method="_on_normal_state_state_input"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/NormalState" to="." method="_on_normal_state_state_physics_processing"]
+[connection signal="state_processing" from="StateChart/CompoundState/NormalState" to="." method="_on_normal_state_state_processing"]
+[connection signal="state_entered" from="StateChart/CompoundState/BubbledState" to="." method="_on_bubbled_state_state_entered"]
+[connection signal="state_exited" from="StateChart/CompoundState/BubbledState" to="." method="_on_bubbled_state_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/BubbledState" to="." method="_on_bubbled_state_state_physics_processing"]

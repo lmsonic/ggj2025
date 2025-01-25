@@ -10,3 +10,5 @@ speed = 400
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6jkhh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

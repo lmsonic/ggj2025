@@ -56,6 +56,7 @@ position = Vector2(595, 509)
 
 [node name="Player2" parent="." instance=ExtResource("2_p3mq7")]
 position = Vector2(366, 495)
+player_index = 1
 move_left_action = "move_left2"
 move_right_action = "move_right2"
 jump_action = "jump2"
