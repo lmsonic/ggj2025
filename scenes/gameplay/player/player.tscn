@@ -12,10 +12,10 @@
 [sub_resource type="LabelSettings" id="LabelSettings_sdatj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8u84x"]
-size = Vector2(32, 54)
+size = Vector2(52, 68)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8nyro"]
-radius = 40.0
+radius = 45.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4hanh")
@@ -27,7 +27,7 @@ bubbled_horizontal_speed = 400.0
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_pdsfg")
 
 [node name="LivesLabel" type="Label" parent="."]
@@ -55,6 +55,7 @@ debug_color = Color(0.991982, 0, 0.258302, 0.42)
 
 [node name="BubbleShape" type="CollisionShape2D" parent="."]
 visible = false
+position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_8nyro")
 disabled = true
 debug_color = Color(0.991982, 0, 0.258302, 0.42)
@@ -62,10 +63,11 @@ debug_color = Color(0.991982, 0, 0.258302, 0.42)
 [node name="Pivot" type="Node2D" parent="."]
 
 [node name="Gun" type="Node2D" parent="Pivot"]
-position = Vector2(30, 0)
+position = Vector2(36, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Pivot/Gun"]
-scale = Vector2(1.5, 1.5)
+position = Vector2(10, 2)
+scale = Vector2(3, 3)
 texture = ExtResource("4_i4t5n")
 
 [node name="StateChart" type="Node" parent="."]

@@ -99,7 +99,7 @@ func die() -> void:
 func bubbled(bubble:Bubble) -> void:
 	if invulnerability_timer.is_stopped():
 		state_chart.send_event("bubbled")
-		velocity += bubble.direction * bubble.speed
+		velocity = bubble.direction * bubble.force
 		move_and_slide()
 
 func get_closest_axis(direction:Vector2) -> Vector2:
@@ -125,11 +125,14 @@ func _on_normal_state_state_input(event: InputEvent) -> void:
 			bub.global_position=gun.global_position
 			get_tree().current_scene.add_child(bub)
 
+@onready var gun_sprite: Sprite2D = $Pivot/Gun/Sprite2D
 
 func _on_normal_state_state_processing(delta: float) -> void:
 	var input := Input.get_vector(gun_left_action,gun_right_action,gun_up_action,gun_down_action).normalized()
 	if input != Vector2.ZERO:
 		gun_pivot.rotation = atan2(input.y,input.x)
+		gun_sprite.flip_v =  input.x < 0
+
 
 func accelerate(horizontal_input:float,acceleration:float,delta:float,max_speed:float) -> void:
 	if horizontal_input < 0.0:
@@ -201,11 +204,12 @@ func _on_bubbled_state_state_exited() -> void:
 	bubble_shape.hide()
 
 func _on_bubbled_state_state_physics_processing(delta: float) -> void:
-	var horizontal_input := Input.get_axis(move_left_action,move_right_action)
-	var acceleration := air_acceleration
-	accelerate(horizontal_input,acceleration,delta,bubbled_horizontal_speed)
+	if bubbled_timer.time_left < 2.9:
+		var horizontal_input := Input.get_axis(move_left_action,move_right_action)
+		var acceleration := air_acceleration
+		accelerate(horizontal_input,acceleration,delta,bubbled_horizontal_speed)
 
-	velocity.y = lerpf(velocity.y,-bubbled_up_speed,air_acceleration*delta)
+		velocity.y = lerpf(velocity.y,-bubbled_up_speed,air_acceleration*delta)
 	move_and_slide()
 
 func _on_bubbled_timer_timeout() -> void:
