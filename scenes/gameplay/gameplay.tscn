@@ -1,8 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://4fyoq8npekf0"]
+[gd_scene load_steps=11 format=3 uid="uid://4fyoq8npekf0"]
 
 [ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="2"]
+[ext_resource type="Script" path="res://scenes/gameplay/death.gd" id="2_cgdq1"]
 [ext_resource type="PackedScene" uid="uid://csgf652oh7exy" path="res://scenes/gameplay/player/player.tscn" id="2_p3mq7"]
-[ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="5"]
+
+[sub_resource type="GDScript" id="GDScript_kfhqv"]
+script/source = "extends Node
+
+# `pre_start()` is called when a scene is loaded.
+# Use this function to receive params from `Game.change_scene(params)`.
+func pre_start(params:Dictionary) -> void:
+	pass
+
+# `start()` is called after pre_start and after the graphic transition ends.
+func start() -> void:
+	print(\"gameplay.gd: start() called\")
+
+
+func _process(delta:float) -> void:
+	pass
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hq4jg"]
 size = Vector2(750, 40)
@@ -10,8 +27,19 @@ size = Vector2(750, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3pt80"]
 size = Vector2(180, 30)
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6pmis"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_srqm1"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ah0d1"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fav26"]
+normal = Vector2(-1, 0)
+
 [node name="Gameplay" type="Node"]
-script = ExtResource("5")
+script = SubResource("GDScript_kfhqv")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(577, 324)
@@ -51,11 +79,39 @@ one_way_collision = true
 
 [node name="BlastZones" type="Node2D" parent="."]
 
+[node name="BlastZone" type="Area2D" parent="BlastZones"]
+script = ExtResource("2_cgdq1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone"]
+position = Vector2(0, -35)
+shape = SubResource("WorldBoundaryShape2D_6pmis")
+
+[node name="BlastZone4" type="Area2D" parent="BlastZones"]
+position = Vector2(0, 722)
+script = ExtResource("2_cgdq1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone4"]
+shape = SubResource("WorldBoundaryShape2D_srqm1")
+
+[node name="BlastZone2" type="Area2D" parent="BlastZones"]
+script = ExtResource("2_cgdq1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone2"]
+shape = SubResource("WorldBoundaryShape2D_ah0d1")
+
+[node name="BlastZone3" type="Area2D" parent="BlastZones"]
+position = Vector2(1152, -35)
+script = ExtResource("2_cgdq1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZones/BlastZone3"]
+position = Vector2(0, -35)
+shape = SubResource("WorldBoundaryShape2D_fav26")
+
 [node name="Player" parent="." instance=ExtResource("2_p3mq7")]
-position = Vector2(595, 509)
+position = Vector2(806, 509)
 
 [node name="Player2" parent="." instance=ExtResource("2_p3mq7")]
-position = Vector2(366, 495)
+position = Vector2(369, 512)
 player_index = 1
 move_left_action = "move_left2"
 move_right_action = "move_right2"
@@ -66,8 +122,7 @@ gun_up_action = "gun_up2"
 gun_down_action = "gun_down2"
 shoot_action = "shoot2"
 
-[node name="CollisionShape2D" parent="Player2" index="0"]
-position = Vector2(-2, 0)
+[node name="CollisionShape2D" parent="Player2" index="1"]
 debug_color = Color(0.611947, 0.538247, 0, 0.42)
 
 [node name="CollisionShape2D" parent="Player2/Pivot/Gun" index="0"]

@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 @export var player_index:=0
+@export var lives:=3
 @export_group("Actions")
 @export var move_left_action:= "move_left"
 @export var move_right_action:= "move_right"
@@ -38,8 +39,6 @@ class_name Player extends CharacterBody2D
 @onready var state_chart: StateChart = $StateChart
 
 var facing_right := true
-var dash_direction := Vector2.ZERO
-var is_dashing := false
 var time_since_grounded := 0.0
 var time_since_jump_press := 100.0
 
@@ -58,11 +57,30 @@ func calculate_fall_multiplier() -> float:
 		return fall_multiplier
 	return 1.0
 
-func die() -> void:
-	Game.restart_scene()
+func reset() -> void:
+	state_chart.send_event("reset")
+	velocity = Vector2.ZERO
+	_aerial_jumps = number_of_aerial_jumps
+	facing_right = true
+	time_since_grounded = 0.0
+	time_since_jump_press = 100.0
 
-func bubbled() -> void:
+@onready var lives_label: Label = $LivesLabel
+@onready var spawn_point:= global_position
+func die() -> void:
+	if lives == 1:
+		Game.restart_scene()
+		return
+	lives -= 1
+	global_position = spawn_point
+	lives_label.text = "●".repeat(lives)
+	reset()
+
+
+func bubbled(bubble:Bubble) -> void:
 	state_chart.send_event("bubbled")
+	velocity += bubble.direction * bubble.speed
+	move_and_slide()
 
 func get_closest_axis(direction:Vector2) -> Vector2:
 	return direction.snapped(Vector2.ONE).normalized()
@@ -73,16 +91,17 @@ func update_facing() -> void:
 @onready var gun_pivot: Node2D = $Pivot
 @onready var gun: Node2D = $Pivot/Gun
 @export var bubble: PackedScene
-
-
+@onready var shooting_timer: Timer = $ShootingTimer
 
 func _on_normal_state_state_input(event: InputEvent) -> void:
 	if event.is_action_pressed(shoot_action):
-		var bub :Bubble= bubble.instantiate()
-		bub.direction = Vector2.RIGHT.rotated(gun_pivot.rotation)
-		bub.player_index = player_index
-		bub.global_position=gun.global_position
-		get_tree().current_scene.add_child(bub)
+		if shooting_timer.is_stopped():
+			shooting_timer.start()
+			var bub :Bubble= bubble.instantiate()
+			bub.direction = Vector2.RIGHT.rotated(gun_pivot.rotation)
+			bub.player_index = player_index
+			bub.global_position=gun.global_position
+			get_tree().current_scene.add_child(bub)
 
 
 func _on_normal_state_state_processing(delta: float) -> void:
@@ -164,7 +183,7 @@ func _on_bubbled_state_state_physics_processing(delta: float) -> void:
 	var acceleration := air_acceleration
 	accelerate(horizontal_input,acceleration,delta,bubbled_horizontal_speed)
 
-	velocity.y = -bubbled_up_speed
+	velocity.y = lerpf(velocity.y,-bubbled_up_speed,air_acceleration*delta)
 	move_and_slide()
 
 func _on_bubbled_timer_timeout() -> void:
