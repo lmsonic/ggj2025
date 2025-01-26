@@ -45,9 +45,17 @@ normal = Vector2(-1, 0)
 
 [node name="Stage" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(483, 273)
-scale = Vector2(6.02222, 6.02222)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource("1_l7rkv")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
