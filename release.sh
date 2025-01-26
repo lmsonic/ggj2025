@@ -14,7 +14,7 @@ if [ "$1" == "--force" ]; then
 fi
 
 EXPORT_NAME="$1"
-GODOT_BIN="${2:-godot}"
+GODOT_BIN="${2:-godot4}"
 
 # Check if the command is available
 if ! command -v "$GODOT_BIN" &> /dev/null; then
