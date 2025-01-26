@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cvhsplhbwlc4n"]
+[gd_scene load_steps=16 format=3 uid="uid://cvhsplhbwlc4n"]
 
 [ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_dx42o"]
 [ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="2_io8wl"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://scenes/scrolling_platforms.gd" id="6_0lmxh"]
 [ext_resource type="Texture2D" uid="uid://bmwes47opj7q8" path="res://assets/sprites/star.png" id="6_ijokh"]
 [ext_resource type="PackedScene" uid="uid://bcd4crsaffbtw" path="res://scenes/moving_platform.tscn" id="8_lsq1r"]
-[ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="9_lx0gk"]
 
 [sub_resource type="Gradient" id="Gradient_7do60"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -124,8 +123,6 @@ texture = ExtResource("6_ijokh")
 
 [node name="CollisionShape2D" parent="Player2" index="2"]
 debug_color = Color(0.611947, 0.538247, 0, 0.42)
-
-[node name="PauseLayer" parent="." instance=ExtResource("9_lx0gk")]
 
 [connection signal="timeout" from="ScrollingPlatforms/Timer" to="ScrollingPlatforms" method="_on_timer_timeout"]
 

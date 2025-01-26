@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dtop4q6gf6q6j"]
+[gd_scene load_steps=18 format=3 uid="uid://dtop4q6gf6q6j"]
 
 [ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_l7rkv"]
 [ext_resource type="Texture2D" uid="uid://5lx0ee2wi01p" path="res://assets/sprites/9patch.png" id="2_em8t0"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://scenes/gameplay/bouncy.gd" id="4_fvojo"]
 [ext_resource type="PackedScene" uid="uid://csgf652oh7exy" path="res://scenes/gameplay/player/player.tscn" id="5_68fcc"]
 [ext_resource type="Texture2D" uid="uid://bmwes47opj7q8" path="res://assets/sprites/star.png" id="6_2657n"]
-[ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="9_g7opv"]
 
 [sub_resource type="Gradient" id="Gradient_uus2b"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -204,7 +203,5 @@ texture = ExtResource("6_2657n")
 
 [node name="CollisionShape2D" parent="Player2" index="2"]
 debug_color = Color(0.611947, 0.538247, 0, 0.42)
-
-[node name="PauseLayer" parent="." instance=ExtResource("9_g7opv")]
 
 [editable path="Player2"]
