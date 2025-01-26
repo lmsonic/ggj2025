@@ -93,7 +93,7 @@ func die() -> void:
 		return
 	lives -= 1
 	global_position = spawn_point
-	lives_label.text = "⚪".repeat(lives)
+	lives_label.text = "•".repeat(lives)
 	reset()
 	invulnerability_timer.start()
 
