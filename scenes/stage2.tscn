@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cvhsplhbwlc4n"]
+[gd_scene load_steps=17 format=3 uid="uid://cvhsplhbwlc4n"]
 
 [ext_resource type="Texture2D" uid="uid://dbd0onwbc6yls" path="res://assets/sprites/background.png" id="1_dx42o"]
 [ext_resource type="Texture2D" uid="uid://cdb4h5hfx6hsb" path="res://assets/sprites/bubble.png" id="2_io8wl"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://csgf652oh7exy" path="res://scenes/gameplay/player/player.tscn" id="5_5vxs8"]
 [ext_resource type="Script" path="res://scenes/scrolling_platforms.gd" id="6_0lmxh"]
 [ext_resource type="Texture2D" uid="uid://bmwes47opj7q8" path="res://assets/sprites/star.png" id="6_ijokh"]
-[ext_resource type="PackedScene" uid="uid://c8nmqxi7xb8am" path="res://scenes/music.tscn" id="8_7cyj3"]
 [ext_resource type="PackedScene" uid="uid://bcd4crsaffbtw" path="res://scenes/moving_platform.tscn" id="8_lsq1r"]
 [ext_resource type="PackedScene" uid="uid://barl4q1kugrmm" path="res://scenes/gameplay/pause-layer/pause-layer.tscn" id="9_lx0gk"]
 
@@ -125,8 +124,6 @@ texture = ExtResource("6_ijokh")
 
 [node name="CollisionShape2D" parent="Player2" index="2"]
 debug_color = Color(0.611947, 0.538247, 0, 0.42)
-
-[node name="AudioStreamPlayer" parent="." instance=ExtResource("8_7cyj3")]
 
 [node name="PauseLayer" parent="." instance=ExtResource("9_lx0gk")]
 

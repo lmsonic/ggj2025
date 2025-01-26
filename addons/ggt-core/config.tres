@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_awcn2")
-pause_scenes_on_transitions = true
+pause_scenes_on_transitions = false
 prevent_input_on_transitions = true
 transitions_minimum_duration_ms = 300.0
 max_history_length = 5

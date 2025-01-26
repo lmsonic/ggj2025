@@ -81,7 +81,7 @@ jobs:
           PACKAGE: itch.zip
 
   export-web:
-    if: true
+    if: false
     name: Web Export
     runs-on: ubuntu-20.04
     container:
