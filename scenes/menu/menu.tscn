@@ -144,7 +144,8 @@ focus_neighbor_top = NodePath("../Stage1Button")
 focus_neighbor_bottom = NodePath("../ExitButton")
 focus_next = NodePath("../ExitButton")
 focus_previous = NodePath("../Stage1Button")
-text = "SCROLLING STAGE"
+text = "SCROLLING STAGE
+(VERY UNTESTED)"
 
 [node name="ExitButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
 custom_minimum_size = Vector2(200, 70)
